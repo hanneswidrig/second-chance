@@ -5,7 +5,7 @@ The purpose of this plugin is to allow losers of an auction an opportunity buy t
 
 There are currently not any known bugs at this time.
 
-Version **1.0.0**
+Version **1.0.1**
 
 |TODO|
 |---|
