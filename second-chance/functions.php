@@ -29,27 +29,36 @@ function SecondChance_insert_sc_bid() {
     global $wpdb;
 	global $current_user;
 
+	$penny_bids_db = $wpdb->prefix.'penny_bids';
 	$second_chance_db = $wpdb->prefix.'penny_second_chance';
 	$pid = $_POST['_pid'];
 	$uid = $current_user->ID;
 
+	if($uid === 0) {return;}// if user is not logged in.
+
+
+	//Check if user who has placed a bid was added to my database yet
+	$user_exist_in_db = $wpdb->get_row("SELECT uid FROM $second_chance_db WHERE uid = $uid AND pid = $pid");
+	if($user_exist_in_db === null) {
+		$user_bid_item = $wpdb->get_row("SELECT uid, pid FROM $penny_bids_db WHERE uid = $uid AND pid = $pid");
+		if($user_bid_item !== null) {
+			$wpdb->insert(
+			    $second_chance_db,
+			    array(
+				    'pid' => $pid,
+				    'uid' => $uid,
+				    'total_bids' => 2,
+			    ));
+			return;
+		}
+	}
+
+	//check if user is currently top bidder
 	$top_bidder = (int) SecondChance_get_highest_bidder($pid);//returns UID of top bidder on item
 	if($uid !== $top_bidder) {//if UID of bidder does not equal UID of top bidder, increment bid total
 		$total_bids = $wpdb->get_var("SELECT total_bids FROM $second_chance_db WHERE uid = $uid AND pid = $pid");
 		$total_bids++;
 		$wpdb->query("UPDATE $second_chance_db SET total_bids = $total_bids WHERE uid = $uid AND pid = $pid");
-	}
-
-	//Check if user was already added for given 'PID'
-	$u_exist = $wpdb->get_row("SELECT uid FROM $second_chance_db WHERE uid = $uid AND pid = $pid");
-	if($u_exist === null) {
-		$wpdb->insert(
-			$second_chance_db,
-			array(
-				'pid' => $pid,
-				'uid' => $uid,
-				'total_bids' => 1,
-			));
 	}
 }
 function SecondChance_update_header() {
