@@ -33,6 +33,7 @@ function SecondChance_first_run() {
 	$decoded = json_decode($fileContents, true);
 
 	if($decoded["first_run"] === 0) {
+		SecondChance_create_offer_page();
 		SecondChance_create_table();
 		$array         = array(
 			'first_run'                => 1,
@@ -451,7 +452,6 @@ if(isset($_POST['SecondChance-save-email'])) {
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
 	switch($action) {
-		case 'create-page' : SecondChance_create_offer_page();break;
         case 'update-row':
 	        $status = $_POST['status'];
 	        $uid = $_POST['uid'];
