@@ -10,7 +10,6 @@ Version **1.1**
 |TODO|
 |---|
 |Add options to adjust discount and number of people who can win.|
-|Admin receives email when bid is accepted.|
 |Add option for base number of bids required to trigger the offer code.|
 
 |Version|Changelog|
