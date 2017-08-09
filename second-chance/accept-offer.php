@@ -11,8 +11,9 @@ function add_to_head() {
 
 function SecondChance_accept_offer_fncs() {
 	ob_start();
-	global $current_user;
-	$uid = $current_user->ID;
+//	global $current_user;
+//	$uid = $current_user->ID;
+    $uid = $_GET['user'];
 	$pid = $_GET['pid'];
 	?>
 		<div class="sc-content">
@@ -53,7 +54,7 @@ function SecondChance_accept_offer_fncs() {
 		</div>
 		<div class="sc-accept">
 			<div id="sc-button">
-				<a href="<?php echo get_site_url().'/?a_action=pay_second&pid='.$pid.'&status=1' ?>">Accept Offer</a>
+				<a href="<?php echo get_site_url().'/?a_action=pay_second&pid='.$pid.'&status=1'.'&user='.$uid ?>">Accept Offer</a>
 			</div>
 		</div>
 <?php

@@ -121,7 +121,6 @@ function SecondChance_check_offered($pid) {
 	$penny_bids_db = $wpdb->prefix.'penny_bids';
 	$second_chance_db = $wpdb->prefix.'penny_second_chance';
 
-	//Mark winner of auction in second_chance_db
 	{
 		$winner = $wpdb->get_var("SELECT uid FROM $penny_bids_db WHERE pid = $pid AND winner = 1");
 		if($winner >= 1) {
@@ -198,7 +197,7 @@ function SecondChance_send_email_to_losing_bidders($uid, $pid, $total_bids) {
 	$post       = get_post($pid);
 	$price      = SecondChance_calculate_discounted_price($pid, $total_bids);
 	$item_name 	= $post->post_title;
-	$item_link 	= get_site_url() . '/my_account/accept-offer/?pid='.$pid;
+	$item_link 	= get_site_url() . '/my_account/accept-offer/?pid='.$pid.'&user='.$uid;
 
 	$find 		= array('##username##', '##username_email##', '##your_site_name##', '##item_name##' , '##item_link##' , '##item_price##');
 	$replace 	= array($user->user_login, $user->user_email, $site_name, $item_name, $item_link, $price);
@@ -210,17 +209,33 @@ function SecondChance_send_email_to_losing_bidders($uid, $pid, $total_bids) {
 	$message 	= PennyTheme_replace_stuff_for_me($find, $replace, $message);
 	$subject 	= PennyTheme_replace_stuff_for_me($find, $replace, $subject);
 
-	//---------------------------------------------
-
 	$email = $user->user_email;
+	$admin_email = get_bloginfo('admin_email');
+	PennyTheme_send_email($admin_email, $subject, $message);//admin copy
 	PennyTheme_send_email($email, $subject, $message);
 }
 function SecondChance_calculate_discounted_price($pid, $total_bids) {
 	$retail_price = get_post_meta($pid, 'retail_price', 	true);
 	$price_var = .3472;
 	$price = round($price_var * $total_bids, 2);
+	$amt_diff = SecondChance_check_percent_off($retail_price, $price);
 	$price = $retail_price - $price;
-	return $price;
+
+	if($amt_diff === 0) {
+		return $price;
+	}
+	else {
+	    return $amt_diff;
+    }
+}
+function SecondChance_check_percent_off($retail_price, $amount_off) {
+    $amt_percent = $amount_off / $retail_price;
+    if($amt_percent > .95) {
+        return $retail_price * .05;
+    }
+    else {
+        return 0;
+    }
 }
 function SecondChance_money_formatter($price, $cents = 2) {
 	$PennyTheme_currency_position = get_option('PennyTheme_currency_position');

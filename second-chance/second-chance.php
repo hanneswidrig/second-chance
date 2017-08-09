@@ -4,7 +4,7 @@
 Plugin Name: Second Chance
 Plugin URI: http://www.hanneswidrig.com
 Description: This Plugin provides magical traits
-Version: 1.0
+Version: 1.1
 Author: Hannes Widrig
 Author URI: http://www.hanneswidrig.com
 License: A "Slug" license name e.g. GPL2
