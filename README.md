@@ -5,7 +5,7 @@ The purpose of this plugin is to allow losers of an auction an opportunity buy t
 
 There are currently not any known bugs at this time.
 
-Version **1.0.1**
+Version **1.1**
 
 |TODO|
 |---|
@@ -17,3 +17,4 @@ Version **1.0.1**
 |---    |---|
 |1.0   |Inital Release.|
 |1.0.1 |Bug fixes to core function.|
+|1.1|Accept Offer works when not logged in. Cap discount at 95%.|
