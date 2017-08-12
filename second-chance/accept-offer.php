@@ -54,6 +54,9 @@ function SecondChance_accept_offer_fncs() {
 		</div>
 		<div class="sc-accept">
 			<div id="sc-button">
+				<?php 
+					global $wpdb;
+					$wpdb->query("UPDATE $second_chance_db set status = 1 WHERE pid = $pid AND uid = $uid"); ?>
 				<a href="<?php echo get_site_url().'/?a_action=pay_second&pid='.$pid.'&status=1'.'&user='.$uid ?>">Accept Offer</a>
 			</div>
 		</div>

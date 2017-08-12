@@ -55,6 +55,7 @@ switch ( $action ) {
 
 		break;
 	case 'success':
+		global $wpdb;
 		$wpdb->query("UPDATE $second_chance_db set status = 2 WHERE pid = $pid AND uid = $uid");
 		break;
 	case 'ipn':
