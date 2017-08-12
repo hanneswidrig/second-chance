@@ -83,7 +83,7 @@ ORDER BY posts.post_date DESC LIMIT ".($postsPerPage * ($page - 1) ).",".$postsP
 	$query_for_orders = "
 SELECT distinct posts.ID, posts.post_date, sc.pid, sc.uid, sc.total_bids, sc.winner, sc.offered, sc.status
 FROM $posts_db AS posts, $second_chance_db AS sc
-WHERE posts.ID = sc.pid AND sc.offered = 1 AND sc.winner <> 1 AND sc.status >= 1
+WHERE posts.ID = sc.pid AND sc.offered = 1 AND sc.winner <> 1 AND sc.status >= 2
 ORDER BY posts.post_date DESC LIMIT ".($postsPerPage * ($page - 1) ).",".$postsPerPage;
 	
 	$total_num_offered = count($wpdb->get_results($query_for_all_pages));
@@ -103,7 +103,7 @@ ORDER BY posts.post_date DESC LIMIT ".($postsPerPage * ($page - 1) ).",".$postsP
         <main>
             <div class="sc_navi">
                 <ul>
-                    <li><a href="#1" class="sc_link">Users Offered</a></li><li><a href="#2" class="sc_link">Orders</a></li><li><a href="#3" class="sc_link">Settings</a></li>
+                    <li><a href="#1" class="sc_link">Users Offered</a></li><li><a href="#2" class="sc_link">Paid Orders</a></li><li><a href="#3" class="sc_link">Settings</a></li>
                 </ul>
             </div>
             <div class="sc_body_main">

@@ -19,7 +19,6 @@ if ( $auctionTheme_enable_paypal_sandbox == "yes" ) {
 $this_script = get_bloginfo( 'siteurl' ) . '/?action=pay_second&pid='.$pid.'&status='.$status.'&user='.$uid;
 $paypal_email = get_option('PennyTheme_payPal_email');
 $second_chance_db = $wpdb->prefix.'penny_second_chance';
-$wpdb->query("UPDATE $second_chance_db SET status = $status WHERE pid = $pid AND uid = $uid");
 $wpdb->query("UPDATE $second_chance_db SET accepted = $status WHERE pid = $pid AND uid = $uid");
 
 if ( empty( $action ) ) {
@@ -53,29 +52,19 @@ switch ( $action ) {
 		$p->add_field( 'amount', SecondChance_formats_special( $payTotal, 2 ) );
 
 		$p->submit_paypal_post();
+
 		break;
 	case 'success':
+		$wpdb->query("UPDATE $second_chance_db set status = 2 WHERE pid = $pid AND uid = $uid");
+		break;
 	case 'ipn':
-		if ( isset( $_POST['custom'] ) ) {
-			global $current_user;
-			$uid = $current_user->ID;
-
-			$cust     = $_POST['custom'];
-			$cust     = explode( "|", $cust );
-			$pid      = $cust[0];
-			$datemade = $cust[1];
-			$uid      = $cust[2];
-		}
-
 		global $wpdb;
 		$wpdb->query("UPDATE $second_chance_db set status = 2 WHERE pid = $pid AND uid = $uid");
-
 		wp_redirect( get_permalink( get_option( 'PennyTheme_my_account_won_auctions_page_id' ) ) );
-		exit;
 		break;
 	case 'cancel':       // Order was canceled...
 		wp_redirect( get_permalink( get_option( 'PennyTheme_my_account_won_auctions_page_id' ) ) );
-		exit;
+
 		break;
 
 
