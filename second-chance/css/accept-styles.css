@@ -86,7 +86,20 @@ div.auction-span {
 }
 
 #main {
-    width: 100%;
+    width: 95%;
     max-width: 980px;
-    min-width: 600px;
+}
+
+.page-id-619 > #main > #content > .my_box3 > .padd10 > .box_content.post-content {
+    display: block;
+    padding-top: 10px;
+}
+
+@media only screen and (max-width: 540px) {
+    .sc-content {
+        flex-direction: column;
+    }
+    .sc-auction-pricing {
+        padding-left: 10px;
+    }
 }

@@ -11,8 +11,6 @@ function add_to_head() {
 
 function SecondChance_accept_offer_fncs() {
 	ob_start();
-//	global $current_user;
-//	$uid = $current_user->ID;
     $uid = $_GET['user'];
 	$pid = $_GET['pid'];
 	?>
@@ -61,7 +59,6 @@ function SecondChance_accept_offer_fncs() {
 			</div>
 		</div>
 <?php
-//	echo PennyTheme_get_users_links();
 	$output = ob_get_contents();
 	ob_end_clean();
 	return $output;
