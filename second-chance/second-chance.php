@@ -4,7 +4,7 @@
 Plugin Name: Second Chance
 Plugin URI: http://www.hanneswidrig.com
 Description: This Plugin provides magical traits
-Version: 1.1
+Version: 1.1.2
 Author: Hannes Widrig
 Author URI: http://www.hanneswidrig.com
 License: A "Slug" license name e.g. GPL2
@@ -63,11 +63,10 @@ function SecondChance_home_page() {
 	global $wpdb;
 	$posts_db = $wpdb->posts;
 	$second_chance_db = $wpdb->prefix.'penny_second_chance';
-	
+
 	$postsPerPage = 8;
-	$page = $_GET['pj'];
-	
-	if(empty($page)) {$page = 1;}
+	if(isset($_GET['pj'])) {$page = $_GET['pj'];}
+    else {$page = 1;}
 
     $query_for_all_pages = "
 SELECT distinct posts.ID, sc.pid, sc.uid, sc.total_bids, sc.winner, sc.offered, sc.status
@@ -77,7 +76,7 @@ WHERE posts.ID = sc.pid AND sc.offered = 1 AND sc.winner <> 1";
 	$query_for_page = "
 SELECT distinct posts.ID, posts.post_date, sc.pid, sc.uid, sc.total_bids, sc.winner, sc.offered, sc.status
 FROM $posts_db AS posts, $second_chance_db AS sc
-WHERE posts.ID = sc.pid AND sc.offered = 1 AND sc.winner <> 1 AND sc.status < 1
+WHERE posts.ID = sc.pid AND sc.offered = 1 AND sc.winner <> 1 AND sc.status <= 1
 ORDER BY posts.post_date DESC LIMIT ".($postsPerPage * ($page - 1) ).",".$postsPerPage;
 
 	$query_for_orders = "
@@ -410,6 +409,7 @@ ORDER BY posts.post_date DESC LIMIT ".($postsPerPage * ($page - 1) ).",".$postsP
         </main>
         <footer><h4>Created by Hannes Widrig</h4></footer>
     </div>
+
 	<?php
 }
 function SecondChance_create_offer_page() {

@@ -210,8 +210,8 @@ function SecondChance_send_email_to_losing_bidders($uid, $pid, $total_bids) {
 	$subject 	= PennyTheme_replace_stuff_for_me($find, $replace, $subject);
 
 	$email = $user->user_email;
-	$admin_email = get_bloginfo('admin_email');
-	PennyTheme_send_email($admin_email, $subject, $message);//admin copy
+//	$admin_email = get_bloginfo('admin_email');
+//	PennyTheme_send_email($admin_email, $subject, $message);//admin copy
 	PennyTheme_send_email($email, $subject, $message);
 }
 function SecondChance_calculate_discounted_price($pid, $total_bids) {
